@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+	<definition name="offers.base"
+		template="/WEB-INF/template/default.jsp">
+		<put-attribute name="includes" value=""></put-attribute>
+		<put-attribute name="title" value="Offers Homepage"></put-attribute>
+		<put-attribute name="header"
+			value="/WEB-INF/tile/header.jsp"></put-attribute>
+		<put-attribute name="content"
+			value="/WEB-INF/tile/content.jsp"></put-attribute>
+		<put-attribute name="footer"
+			value="/WEB-INF/tile/footer.jsp"></put-attribute>
+	</definition>
+	<definition name="home" extends="offers.base">
+		<put-attribute name="title" value="Offers Homepage"></put-attribute>
+		<put-attribute name="content"
+			value="/WEB-INF/tile/home.jsp"></put-attribute>
+	</definition>
+	<definition name="offers" extends="offers.base">
+		<put-attribute name="title" value="Offers Homepage"></put-attribute>
+		<put-attribute name="content"
+			value="/WEB-INF/tile/offers.jsp"></put-attribute>
+	</definition>
+	<definition name="login" extends="offers.base">
+		<put-attribute name="title" value="Offers Homepage"></put-attribute>
+		<put-attribute name="content"
+			value="/WEB-INF/tile/login.jsp"></put-attribute>
+	</definition>
+	<definition name="createaccount" extends="offers.base">
+		<put-attribute name="includes"
+			value="/WEB-INF/tile/createaccountscript.jsp"></put-attribute>
+		<put-attribute name="title" value="Create Account"></put-attribute>
+		<put-attribute name="content"
+			value="/WEB-INF/tile/createaccount.jsp"></put-attribute>
+	</definition>
+	<definition name="postoffer" extends="offers.base">
+		<put-attribute name="title" value="Create OFFER"></put-attribute>
+		<put-attribute name="content"
+			value="/WEB-INF/tile/postoffer.jsp"></put-attribute>
+	</definition>
+	<definition name="offerposted" extends="offers.base">
+		<put-attribute name="title" value="OFFER POSTED"></put-attribute>
+		<put-attribute name="content"
+			value="/WEB-INF/tile/offerposted.jsp"></put-attribute>
+	</definition>
+	<definition name="logout" extends="offers.base">
+		<put-attribute name="title" value="LOGOUT"></put-attribute>
+		<put-attribute name="content"
+			value="/WEB-INF/tile/logout.jsp"></put-attribute>
+	</definition>
+	<definition name="error" extends="offers.base">
+		<put-attribute name="title" value="ERROR"></put-attribute>
+		<put-attribute name="content"
+			value="/WEB-INF/tile/error.jsp"></put-attribute>
+	</definition>
+	<definition name="admin" extends="offers.base">
+		<put-attribute name="title" value="ADMIN PAGE"></put-attribute>
+		<put-attribute name="content"
+			value="/WEB-INF/tile/admin.jsp"></put-attribute>
+	</definition>
+	<definition name="accountcreated" extends="offers.base">
+		<put-attribute name="title" value="ACCOUNT CREATED"></put-attribute>
+		<put-attribute name="content"
+			value="/WEB-INF/tile/accountcreated.jsp"></put-attribute>
+	</definition>
+	<definition name="accessdenied" extends="offers.base">
+		<put-attribute name="title" value="ACCESS DENIED"></put-attribute>
+		<put-attribute name="content"
+			value="/WEB-INF/tile/accessdenied.jsp"></put-attribute>
+	</definition>
+</tiles-definitions>
