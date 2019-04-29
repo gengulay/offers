@@ -1,17 +1,18 @@
 package com.gengulay.spring.controllers;
 
+import java.security.Principal;
 import java.util.List;
-
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.gengulay.spring.web.dao.FormValidationGroup;
 import com.gengulay.spring.web.dao.Offer;
 import com.gengulay.spring.web.service.OfferService;
 
@@ -54,22 +55,42 @@ public class OfferController {
 	 */
 
 	@RequestMapping(value = "/postoffer")
-	public String getOffer(Offer offer, Model model) {
+	public String getOffer(Model model, Principal principal) {
 
-		model.addAttribute("offer", new Offer());
+		Offer offer = null;
+
+		if (principal != null) {
+			String username = principal.getName();
+
+			offer = offerservice.getOfferByUsername(username);
+		}
+
+		if (offer == null)
+			offer = new Offer();
+
+		model.addAttribute("offer", offer);
 
 		return "postoffer";
 	}
 
 	@RequestMapping(value = "/postoffer", method = RequestMethod.POST)
-	public String postOffer(@Valid Offer offer, BindingResult result, Model model) {
+	public String postOffer(@Validated(value = FormValidationGroup.class) Offer offer, BindingResult result,
+			Model model, Principal principal, @RequestParam(value = "delete", required = false) String delete) {
 
 		if (result.hasErrors()) {
 			return "postoffer";
 		}
 
-		offerservice.create(offer);
+		if (delete == null) {
+			String username = principal.getName();
+			offer.getUser().setUsername(username);
+			offerservice.createOrUpdateOffer(offer);
+			return "offerposted";
+		} else {
+			offerservice.deleteById(offer.getId());
+			return "offerdeleted";
 
-		return "offerposted";
+		}
+
 	}
 }

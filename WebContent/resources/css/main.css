@@ -74,7 +74,12 @@ a.login {
 	right: 10px;
 	color: white;
 }
+
 a.title {
 	color: white;
 	font-size: 35px;
+}
+
+input.delete {
+	border: 1px solid red;
 }

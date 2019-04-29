@@ -1,25 +1,42 @@
 package com.gengulay.spring.web.dao;
 
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import com.gengulay.spring.validation.constraints.ValidEmail;
 
-public class User {
+@Entity
+@Table(name = "users")
+public class User implements Serializable {
 
-	@NotBlank(message = "username cannot be blank")
-	@Size(min = 8, max = 15)
-	@Pattern(regexp = "^\\w{8,}$", message = "username cannot contain special characters")
+	private static final long serialVersionUID = -1616505492732559452L;
+
+	@NotBlank(groups = { PersistenceValidationGroup.class, FormValidationGroup.class })
+	@Size(min = 8, max = 15, groups = { PersistenceValidationGroup.class, FormValidationGroup.class })
+	@Pattern(regexp = "^\\w{8,}$", groups = { PersistenceValidationGroup.class, FormValidationGroup.class })
+	@Id
+	@Column(name = "username")
 	private String username;
 
-	@NotBlank(message = "password cannot be blank")
-	@Pattern(regexp = "^\\S+$", message = "password cannot contain spaces")
-	@Size(min = 8, max = 15, message = "password must be 8-15 characters long")
+	@NotBlank(groups = { PersistenceValidationGroup.class, FormValidationGroup.class })
+	@Pattern(regexp = "^\\S+$", groups = { PersistenceValidationGroup.class, FormValidationGroup.class })
+	@Size(min = 8, max = 15, groups = { FormValidationGroup.class })
 	private String password;
 
-	@ValidEmail(message = "this is not a valid email")
+	@ValidEmail(groups = { PersistenceValidationGroup.class, FormValidationGroup.class })
 	private String email;
+
+	@NotBlank(groups = { PersistenceValidationGroup.class, FormValidationGroup.class })
+	@Size(min = 8, max = 60, groups = { PersistenceValidationGroup.class, FormValidationGroup.class })
+	private String name;
+
 	boolean enabled = false;
 	private String authority;
 
@@ -27,8 +44,9 @@ public class User {
 
 	}
 
-	public User(String username, String password, boolean enabled, String authority, String email) {
+	public User(String username, String name, String password, boolean enabled, String authority, String email) {
 		this.username = username;
+		this.name = name;
 		this.password = password;
 		this.enabled = enabled;
 		this.authority = authority;
@@ -75,6 +93,14 @@ public class User {
 		this.email = email;
 	}
 
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -82,6 +108,7 @@ public class User {
 		result = prime * result + ((authority == null) ? 0 : authority.hashCode());
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		result = prime * result + (enabled ? 1231 : 1237);
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((username == null) ? 0 : username.hashCode());
 		return result;
 	}
@@ -107,12 +134,23 @@ public class User {
 			return false;
 		if (enabled != other.enabled)
 			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
 		if (username == null) {
 			if (other.username != null)
 				return false;
 		} else if (!username.equals(other.username))
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "User [username=" + username + ", email=" + email + ", enabled=" + enabled + ", authority=" + authority
+				+ ", name=" + name + "]";
 	}
 
 }
