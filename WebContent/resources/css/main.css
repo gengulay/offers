@@ -59,6 +59,12 @@ div.content {
 	padding: 40px;
 }
 
+div.toolbar {
+	position: relative;
+	padding-left: 40px;
+	margin-top: 10px;
+}
+
 div.header {
 	position: relative;
 	text-align: center;
@@ -82,4 +88,69 @@ a.title {
 
 input.delete {
 	border: 1px solid red;
+}
+
+td.name {
+	width: 130px;
+	vertical-align: top;
+}
+
+td.contact {
+	padding: 0px 10px;
+	vertical-align: top;
+	width: 100px;
+}
+
+table.offers td {
+	border-bottom: 1px dashed brown;
+	padding-bottom: 5px;
+}
+
+.message {
+	margin-bottom: 20px;
+	border-bottom: 1px dashed teal;
+}
+
+span.subjects {
+	font-size: large;
+	color: brown;
+	font-weight: bold;
+}
+
+span.messageBody {
+	display: block;
+	font-style: italic;
+	font-family: fantasy;
+}
+
+span.name {
+	color: green;
+	font-size: small;
+}
+
+form.replyform {
+	padding: 20px;
+	display: none;
+}
+
+textarea.replyarea {
+	width: 400px;
+	height: 250;
+}
+
+input.replybutton {
+	display: block;
+	font-size: large;
+	border: 1px solid orange;
+}
+
+a.replylink:link {
+	color: black;
+}
+
+span.alertspan {
+	display: block;
+	font-weight: bold;
+	color: olive;
+	
 }

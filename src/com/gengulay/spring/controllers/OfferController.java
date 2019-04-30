@@ -1,7 +1,6 @@
 package com.gengulay.spring.controllers;
 
 import java.security.Principal;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,17 +25,6 @@ public class OfferController {
 		this.offerservice = offerservice;
 	}
 
-	@RequestMapping("/offers")
-	public String showOffers(Model model) {
-
-		// offerservice.throwTestException();
-		List<Offer> offers = offerservice.getCurrent();
-
-		model.addAttribute("offers", offers);
-
-		return "offers";
-	}
-
 	@RequestMapping(value = "/test", method = RequestMethod.GET)
 	public String showTest(Model model, @RequestParam("id") String id) {
 
@@ -44,15 +32,6 @@ public class OfferController {
 
 		return "home";
 	}
-
-	/*
-	 * @ExceptionHandler(DataAccessException.class) public String
-	 * handleDatabaseException(DataAccessException ex) {
-	 * 
-	 * return "error";
-	 * 
-	 * }
-	 */
 
 	@RequestMapping(value = "/postoffer")
 	public String getOffer(Model model, Principal principal) {

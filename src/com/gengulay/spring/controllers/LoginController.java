@@ -8,10 +8,13 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.mail.MailSender;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -25,6 +28,9 @@ import com.gengulay.spring.web.service.UserService;
 public class LoginController {
 
 	private UserService userService;
+
+	@Autowired
+	private MailSender mailSender;
 
 	@Autowired
 	public void setUserService(UserService userService) {
@@ -45,6 +51,11 @@ public class LoginController {
 	@RequestMapping("/accessdenied")
 	public String getAccessdenied() {
 		return "accessdenied";
+	}
+
+	@RequestMapping("/messages")
+	public String getMessages() {
+		return "messages";
 	}
 
 	@RequestMapping("/login")
@@ -94,11 +105,9 @@ public class LoginController {
 		return "accountcreated";
 	}
 
-	@RequestMapping(value = "/getmessages", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
-	public Map<String, Object> getMessages(Principal principal) {
-
-		System.out.println("hello");
+	@RequestMapping(value = "/getmessages", method = RequestMethod.GET, produces = "application/json")
+	public Map<String, Object> getMessagesByUsername(Principal principal) {
 
 		List<Message> messages = null;
 
@@ -114,6 +123,35 @@ public class LoginController {
 		data.put("number", messages.size());
 
 		return data;
+	}
+
+	@ResponseBody
+	@RequestMapping(value = "/sendmessage", method = RequestMethod.POST, produces = "application/json")
+	public Map<String, Object> sendMessage(Principal principal, @RequestBody Map<String, Object> data) {
+
+		String text = (String) data.get("text");
+		String name = (String) data.get("name");
+		String email = (String) data.get("email");
+		Integer target = (Integer) data.get("target");
+
+		SimpleMailMessage mail = new SimpleMailMessage();
+		mail.setFrom("lunamoonfanged@gmail.com");
+		mail.setTo(email);
+		mail.setSubject("Re: " + name + ", your message");
+		mail.setText(text);
+
+		try {
+			mailSender.send(mail);
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("Can't send message");
+		}
+
+		Map<String, Object> rval = new HashMap<String, Object>();
+		rval.put("success", true);
+		rval.put("target", target);
+
+		return rval;
 	}
 
 }

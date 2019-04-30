@@ -4,40 +4,37 @@
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
 
+
 <table class="offers">
-	<tr>
-		<td>Name</td>
-		<td>Email</td>
-		<td>Offer</td>
-	</tr>
+
 	<c:forEach var="offer" items="${offers}">
-		<tr>
-			<td><c:out value="${offer.user.name}"></c:out></td>
-			<td><a
-				href="<c:url value='/message?uid=${offer.user.username}'/>"> Contact</a></td>
-			<td><c:out value="${offer.text}"></c:out></td>
+		<tr class="offerrow">
+			<td class="name"><c:out value="${offer.user.name}"></c:out></td>
+			<td class="contact"><a
+				href="<c:url value='/message?uid=${offer.user.username}'/>">
+					Contact</a></td>
+			<td class="text"><c:out value="${offer.text}"></c:out></td>
 		</tr>
 	</c:forEach>
 </table>
 
 <br />
 
-<c:choose>
-	<c:when test="${hasOffer}">
+<script type="text/javascript">
+	function updateMessageLink(data) {
+		$("#numberMessages").text(data.number);
 
-		<a href="${pageContext.request.contextPath}/postoffer">Edit or
-			delete your Offer</a>
-	</c:when>
-	<c:otherwise>
-		<p>
-			<a href="${pageContext.request.contextPath}/postoffer">Post a new
-				Offer</a>
-		</p>
-	</c:otherwise>
-</c:choose>
+	}
 
-<sec:authorize access="hasRole('ROLE_ADMIN')">
-	<p>
-		<a href="<c:url value="/admin" />">ADMIN</a>
-	</p>
-</sec:authorize>
+	function onLoad() {
+		updatePage();
+		window.setInterval(updatePage, 5000);
+	}
+
+	function updatePage() {
+
+		$.getJSON("<c:url value="/getmessages"></c:url>", updateMessageLink)
+	}
+
+	$(document).ready(onLoad);
+</script>

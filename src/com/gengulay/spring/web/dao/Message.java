@@ -29,8 +29,6 @@ public class Message implements Serializable {
 	@Size(min = 8, max = 60)
 	private String name;
 
-	// Senders email address
-	@ValidEmail
 	private String email;
 
 	// Send message to this user

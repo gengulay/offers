@@ -30,7 +30,6 @@ public class User implements Serializable {
 	@Size(min = 8, max = 15, groups = { FormValidationGroup.class })
 	private String password;
 
-	@ValidEmail(groups = { PersistenceValidationGroup.class, FormValidationGroup.class })
 	private String email;
 
 	@NotBlank(groups = { PersistenceValidationGroup.class, FormValidationGroup.class })
