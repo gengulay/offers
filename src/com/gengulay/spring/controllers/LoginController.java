@@ -30,6 +30,9 @@ public class LoginController {
 	private UserService userService;
 
 	@Autowired
+	private SimpleMailMessage mail;
+
+	@Autowired
 	private MailSender mailSender;
 
 	@Autowired
@@ -134,8 +137,10 @@ public class LoginController {
 		String email = (String) data.get("email");
 		Integer target = (Integer) data.get("target");
 
-		SimpleMailMessage mail = new SimpleMailMessage();
-		mail.setFrom("lunamoonfanged@gmail.com");
+		System.out.println(email);
+
+		mail = new SimpleMailMessage();
+		mail.setFrom("gengulay@gmail.com");
 		mail.setTo(email);
 		mail.setSubject("Re: " + name + ", your message");
 		mail.setText(text);
@@ -144,7 +149,7 @@ public class LoginController {
 			mailSender.send(mail);
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println("Can't send message");
+			System.out.println("Can't send message " + e.getMessage());
 		}
 
 		Map<String, Object> rval = new HashMap<String, Object>();

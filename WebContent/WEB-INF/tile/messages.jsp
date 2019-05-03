@@ -32,6 +32,7 @@
 			"data" : JSON.stringify({
 				"text" : text,
 				"name" : name,
+				"email": email,
 				"target" : i
 			}),
 			"success" : success,
